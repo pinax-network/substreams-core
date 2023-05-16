@@ -1,34 +1,42 @@
 {
   "private": true,
-  "packageManager": "pnpm@8.3.1",
+  "name": "@substreams/core",
+  "version": "0.0.4",
+  "description": "Substreams Core",
+  "license": "MIT",
+  "repository": "pinax-network/substreams-es",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
-    "codegen": "pnpm run --recursive codegen",
-    "start:node": "pnpm run --recursive --filter example-node start",
-    "start:web": "pnpm run --recursive --parallel --filter example-web* start",
-    "build": "pnpm run --recursive --filter \"./packages/*\" build",
-    "release": "pnpm changeset version && pnpm run --recursive --filter \"./packages/*\" release && pnpm changeset publish",
-    "test": "pnpm run --recursive --filter \"./packages/*\" test --run",
-    "test:coverage": "pnpm run --recursive --filter \"./packages/*\" test:coverage",
-    "clean": "pnpm run --recursive --parallel clean",
-    "typecheck": "pnpm run --recursive --parallel typecheck",
-    "format": "rome format --write . && rome check --apply .",
-    "lint": "rome check ."
+    "build": "del-cli dist && tsc",
+    "codegen": "buf generate buf.build/streamingfast/substreams && buf generate proto",
+    "prepublishOnly": "npm run test && npm run build",
+    "test": "vitest --coverage"
+  },
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "substreams",
+    "streamingfast",
+    "thegraph",
+    "graph"
+  ],
+  "dependencies": {
+    "@bufbuild/connect": "0.8.x",
+    "@bufbuild/protobuf": "1.2.x"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.4.8",
-    "@changesets/cli": "^2.26.1",
-    "rome": "^12.1.0",
-    "typescript": "^5.0.4"
-  },
-  "pnpm": {
-    "overrides": {
-      "@fubhy/substreams": "workspace:*",
-      "@fubhy/substreams-proxy": "workspace:*"
-    },
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "prop-types"
-      ]
-    }
+    "@bufbuild/buf": "latest",
+    "@sindresorhus/tsconfig": "latest",
+    "@types/node": "latest",
+    "@vitest/coverage-c8": "latest",
+    "del-cli": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
   }
 }
