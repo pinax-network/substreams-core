@@ -8,12 +8,13 @@
   "type": "module",
   "exports": "./dist/index.js",
   "engines": {
-    "node": ">=12"
+    "node": ">=12",
+    "bun": ">=1.4.3"
   },
   "scripts": {
     "build": "del-cli dist && tsc",
     "codegen": "buf generate buf.build/streamingfast/substreams && buf generate proto",
-    "prepublishOnly": "npm run test && npm run build",
+    "prepublishOnly": "bun run test && bun run build",
     "test": "vitest --coverage"
   },
   "files": [
@@ -31,12 +32,19 @@
     "@bufbuild/protobuf": "1.2.x"
   },
   "devDependencies": {
-    "@bufbuild/buf": "latest",
-    "@sindresorhus/tsconfig": "latest",
-    "@types/node": "latest",
-    "@vitest/coverage-c8": "latest",
-    "del-cli": "latest",
-    "typescript": "latest",
-    "vitest": "latest"
+    "@bufbuild/buf": "1.18.0-1",
+    "@sindresorhus/tsconfig": "3.0.1",
+    "@types/node": "20.1.7",
+    "@vitest/coverage-c8": "0.31.0",
+    "del-cli": "5.0.0",
+    "typescript": "5.0.4",
+    "vitest": "0.31.0"
+  },
+  "packageManager": "bun@1.4.3",
+  "devEngines": {
+    "packageManager": {
+      "name": "bun",
+      "onFail": "error"
+    }
   }
 }
